@@ -13,6 +13,7 @@ import WebKit
 class ViewController: UIViewController , WKNavigationDelegate {
     
     var webView: WKWebView!
+    var progressView: UIProgressView!
 
     
     override func loadView() {
@@ -30,7 +31,11 @@ class ViewController: UIViewController , WKNavigationDelegate {
         let fSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
         
-        toolbarItems = [fSpace, refresh]
+        progressView = UIProgressView(progressViewStyle: .default)
+        progressView.sizeToFit()
+        let progressButton = UIBarButtonItem(customView: progressView)
+        
+        toolbarItems = [progressButton , fSpace, refresh]
         navigationController?.isToolbarHidden = false
         
         
