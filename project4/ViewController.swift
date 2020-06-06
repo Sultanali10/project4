@@ -14,6 +14,7 @@ class ViewController: UIViewController , WKNavigationDelegate {
     
     var webView: WKWebView!
     var progressView: UIProgressView!
+    var websites = ["Youtube.com" , "Dailymotion.com" , "Google.com" ]
 
     
     override func loadView() {
@@ -40,7 +41,7 @@ class ViewController: UIViewController , WKNavigationDelegate {
         
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
-        let url = URL(string: "https://www.google.com/")
+        let url = URL(string: "https://" + websites[2])
         webView.load(URLRequest(url: url!))
         webView.allowsBackForwardNavigationGestures = true
     }
@@ -48,12 +49,12 @@ class ViewController: UIViewController , WKNavigationDelegate {
     @objc func openTapped() {
         
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let openYoutube = UIAlertAction(title: "Youtube.com", style: .default, handler: openPage)
-        let openDailymotion = UIAlertAction(title: "Dailymotion.com", style: .default, handler: openPage)
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         
-        ac.addAction(openYoutube)
-        ac.addAction(openDailymotion)
+        for website in websites {
+             ac.addAction(UIAlertAction(title: website, style: .default, handler: openPage))
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         ac.addAction(cancel)
         
         present(ac , animated: true)
