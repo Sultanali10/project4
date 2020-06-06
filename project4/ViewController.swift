@@ -27,6 +27,13 @@ class ViewController: UIViewController , WKNavigationDelegate {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "open", style: .plain, target: self, action: #selector(openTapped))
         
+        let fSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        
+        toolbarItems = [fSpace, refresh]
+        navigationController?.isToolbarHidden = false
+        
+        
         let url = URL(string: "https://www.google.com/")
         webView.load(URLRequest(url: url!))
         webView.allowsBackForwardNavigationGestures = true
