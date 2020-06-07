@@ -15,6 +15,7 @@ class ViewController: UIViewController , WKNavigationDelegate {
     var webView: WKWebView!
     var progressView: UIProgressView!
     var websites = ["Youtube.com" , "Dailymotion.com" , "Google.com" ]
+    var newSite  = "facebook.com"
 
     
     override func loadView() {
@@ -27,7 +28,10 @@ class ViewController: UIViewController , WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "open", style: .plain, target: self, action: #selector(openTapped))
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "add", style: .plain, target: self, action: #selector(adding))
         
         let fSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
@@ -45,6 +49,31 @@ class ViewController: UIViewController , WKNavigationDelegate {
         webView.load(URLRequest(url: url!))
         webView.allowsBackForwardNavigationGestures = true
     }
+    
+    @objc func adding() {
+        
+        let alert = UIAlertController(title: "Add new website", message: nil, preferredStyle: .alert)
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "Enter your site"
+            
+        }
+        
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+            let textfield = (alert.textFields?.first)! as UITextField
+            self.newSite = textfield.text ?? "twitter.com"
+            self.websites += [self.newSite]
+            
+            }
+            
+        )
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(alert , animated: true)
+    }
+    
+
     
     @objc func openTapped() {
         
@@ -71,10 +100,9 @@ class ViewController: UIViewController , WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        
         title = webView.title
-        
         progressView.isHidden = true
+        
     }
     
     
@@ -83,6 +111,7 @@ class ViewController: UIViewController , WKNavigationDelegate {
         if keyPath == "estimatedProgress" {
             
             progressView.progress = Float(webView.estimatedProgress)
+            
         }
         
     }
